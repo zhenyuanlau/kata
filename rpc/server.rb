@@ -1,4 +1,5 @@
 require 'socket'
+require_relative 'jsonrpc'
 
 # open Kernel
 module Kernel
@@ -10,6 +11,8 @@ module Kernel
 end
 
 class ServerStub
+  include JsonRpc
+
   class << self
     def start
       stub = ServerStub.new(8888)
@@ -25,26 +28,20 @@ class ServerStub
     Socket.accept_loop(@server) do |connection|
       with connection do
         request = connection.read
-        method, args = Marshal.load(request)
+        request = Marshal.load(request)
+        method = request.method
+        args = request.params
         unless respond_to? method
-          define_singleton_method method do |args| 
-            args
+          define_singleton_method method do
+            Response.new(args.length, 1)
           end
         end
-        response = send(method.to_sym, *args)
+        response = send(method)
         data = Marshal.dump(response)
         connection.write(data)
       end
     end
   end
-
-  # def method_missing(name, *args)
-  #   super if respond_to?(name)
-  # end
-
-  # def respond_to_missing?(method, include_private = false)
-  #   super
-  # end
 end
 
 ServerStub.start
