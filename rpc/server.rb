@@ -26,6 +26,11 @@ class ServerStub
       with connection do
         request = connection.read
         method, args = Marshal.load(request)
+        unless respond_to? method
+          define_singleton_method method do |args| 
+            args
+          end
+        end
         response = send(method.to_sym, *args)
         data = Marshal.dump(response)
         connection.write(data)
@@ -33,13 +38,13 @@ class ServerStub
     end
   end
 
-  def method_missing(name, *args)
-    'hi'
-  end
+  # def method_missing(name, *args)
+  #   super if respond_to?(name)
+  # end
 
-  def respond_to_missing?
-    super
-  end
+  # def respond_to_missing?(method, include_private = false)
+  #   super
+  # end
 end
 
 ServerStub.start
