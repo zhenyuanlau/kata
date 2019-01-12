@@ -1,2 +1,3 @@
 # kata
+
 Code Kata

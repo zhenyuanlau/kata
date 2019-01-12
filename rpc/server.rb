@@ -1,15 +1,8 @@
 require 'socket'
 require_relative 'jsonrpc'
+require_relative 'extension'
 
-# open Kernel
-module Kernel
-  def with(connection)
-    yield
-  ensure
-    connection.close
-  end
-end
-
+# Server Stub
 class ServerStub
   include JsonRpc
 

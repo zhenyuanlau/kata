@@ -1,4 +1,5 @@
 module JsonRpc
+  # jsonrpc request wrapper
   class Request
     %i(jsonrpc method params id).each do |attr|
       define_method attr do
@@ -13,10 +14,10 @@ module JsonRpc
         params: args.flatten, 
         id: id
       }
-      @payload
     end
   end
 
+  # jsonrpc response wrapper
   class Response
     %i(jsonrpc result id).each do |attr|
       define_method attr do
