@@ -1,1 +1,1 @@
-require_relative 'ext/Kernel.rb'
+require_relative 'ext/kernel.rb'
