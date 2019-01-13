@@ -1,6 +1,6 @@
-# -*- coding: utf-8 -*-
+# frozen_string_literal: true
 
-require 'socket'
+require "socket"
 
 ####### Basic
 
@@ -37,4 +37,3 @@ Socket.accept_loop(server) do |connection|
   connection.write(request)
   connection.close
 end
-

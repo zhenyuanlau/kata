@@ -1,8 +1,9 @@
-require 'socket'
-require_relative 'jsonrpc'
-require_relative 'extension'
+# frozen_string_literal: true
 
-# Server Stub
+require "socket"
+require_relative "jsonrpc"
+require_relative "extension"
+
 class ServerStub
   include JsonRpc
 
@@ -21,7 +22,8 @@ class ServerStub
     Socket.accept_loop(@server) do |connection|
       with connection do
         request = connection.read
-        request = Marshal.load(request)
+        request = Marshal.load(Marshal.dump(request))
+        puts request
         method = request.method
         args = request.params
         unless respond_to? method
@@ -30,8 +32,7 @@ class ServerStub
           end
         end
         response = send(method)
-        data = Marshal.dump(response)
-        connection.write(data)
+        connection.write(response)
       end
     end
   end

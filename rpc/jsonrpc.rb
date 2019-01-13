@@ -1,25 +1,25 @@
+# frozen_string_literal: true
+
 module JsonRpc
-  # jsonrpc request wrapper
   class Request
-    %i(jsonrpc method params id).each do |attr|
+    %i[jsonrpc method params id].each do |attr|
       define_method attr do
-        @payload[attr]
+        @playload[attr]
       end
     end
 
     def initialize(method, *args, id)
-      @payload = {
-        jsonrpc: '2.0', 
-        method: method, 
-        params: args.flatten, 
+      @playload = {
+        jsonrpc: "2.0",
+        method: method,
+        params: args.flatten,
         id: id
       }
     end
   end
 
-  # jsonrpc response wrapper
   class Response
-    %i(jsonrpc result id).each do |attr|
+    %i[jsonrpc result id].each do |attr|
       define_method attr do
         @payload[attr]
       end
@@ -27,11 +27,10 @@ module JsonRpc
 
     def initialize(result, id)
       @payload = {
-        jsonrpc: '2.0', 
-        result: result, 
+        jsonrpc: "2.0",
+        result: result,
         id: id
       }
-      @payload
     end
   end
 end

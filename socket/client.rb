@@ -1,6 +1,6 @@
-# -*- coding: utf-8 -*-
+# frozen_string_literal: true
 
-require 'socket'
+require "socket"
 
 ####### Basic
 # 创建
@@ -21,7 +21,7 @@ require 'socket'
 
 ####### Advanced
 
-client = TCPSocket.new('0.0.0.0', 8888)
+client = TCPSocket.new("0.0.0.0", 8888)
 
 client.write("hi")
 
