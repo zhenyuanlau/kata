@@ -21,19 +21,28 @@ class ServerStub
   def run
     Socket.accept_loop(@server) do |connection|
       with connection do
-        request = connection.read
-        request = Marshal.load(Marshal.dump(request))
-        puts request
-        method = request.method
-        args = request.params
-        unless respond_to? method
-          define_singleton_method method do
-            Response.new(args.length, 1)
-          end
-        end
-        response = send(method)
-        connection.write(response)
+        handle(connection)
       end
+    end
+  end
+
+private
+
+  def handle(connection)
+    request = connection.read
+    request = Marshal.load(request)
+    method = request.method
+    args = request.params
+    unless respond_to? method
+      do_when_method_missing(method, 1)
+    end
+    response = send(method, args)
+    connection.write(Marshal.dump(response))
+  end
+
+  def do_when_method_missing(method, id)
+    self.class.send :define_method, method do |params|
+      Response.new(params.length, id)
     end
   end
 end
