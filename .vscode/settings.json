@@ -6,5 +6,6 @@
     "fasterer": true,
     "debride": true,
     "ruby-lint": true
-  }
+  },
+  "python.pythonPath": "/usr/local/opt/python/bin/python3.7"
 }
