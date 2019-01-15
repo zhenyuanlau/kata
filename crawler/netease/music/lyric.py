@@ -46,10 +46,12 @@ def get_lyric(song_id):
 
 def write_lyric(song_name, lyric):
   print(f'正在写入歌曲: {song_name}')
-  with open(f'{os.getcwd()}/crawler/lyrics/{song_name}.txt', 'a', encoding='utf-8') as fp:
+  with open(f'/tmp/lyrics/{song_name}.txt', 'a', encoding='utf-8') as fp:
     fp.write(lyric)
 
 if __name__ == '__main__':
+  if not os.path.exists('/tmp/lyrics'):
+    os.makedirs('/tmp/lyrics')
   artist_id = input('请输入艺人 ID: ')
   artist_url = f'http://music.163.com/artist?id={artist_id}'
   response = http_get(artist_url).text
