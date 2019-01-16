@@ -10,6 +10,7 @@ from bs4 import BeautifulSoup
 import os
 import re
 import requests
+import sys
 
 def http_get(url):
   headers = {
@@ -48,6 +49,14 @@ def write_lyric(song_name, lyric):
   print(f'正在写入歌曲: {song_name}')
   with open(f'/tmp/lyrics/{song_name}.txt', 'a', encoding='utf-8') as fp:
     fp.write(lyric)
+
+def parse_lyric(song_name):
+  # print(sys.getdefaultencoding())
+  with open(f'/tmp/lyrics/{song_name}.txt', 'rt') as fp:
+    data = fp.read().replace('\n', '')
+    print(set(data))
+    # for line in fp:
+    #   print(line)
 
 if __name__ == '__main__':
   if not os.path.exists('/tmp/lyrics'):
